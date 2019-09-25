@@ -3,12 +3,12 @@
     <ul class="tab">
       <li
         class="tab__item"
-        :class="{'tab_item--active':tab === 1}"
+        :class="{'tab__item--active':tab === 1}"
         @click="tab = 1"
       >Login</li>
       <li
         class="tab__item"
-        :class="{'tab_item--active':tab === 2}"
+        :class="{'tab__item--active':tab === 2}"
         @click="tab = 2"
       >Register</li>
     </ul>
@@ -60,11 +60,16 @@ export default {
     }
   },
   methods:{
-    login() {
-      console.log(this.loginForm)
+  async login () {
+    // authストアのloginアクションを呼び出す
+    await this.$store.dispatch('auth/login', this.loginForm)
+    // トップページに移動する
+    this.$router.push('/')
     },
-    register(){
-    console.log(this.registerForm)
+  async register(){
+      await this.$store.dispatch('auth/register',this.registerForm)
+
+      this.$router.push('/')
     }
   }
 }
