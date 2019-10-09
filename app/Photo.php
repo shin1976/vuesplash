@@ -16,7 +16,7 @@ class Photo extends Model
     {
         parent::__construct($attributes);
 
-        if (! array_get($this->attributes, 'id')) {
+        if (! data_get($this->attributes, 'id')) {
             $this->setId();
         }
     }
@@ -49,5 +49,5 @@ class Photo extends Model
         }
 
         return $id;
-    }  
+    }
 }
