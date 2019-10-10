@@ -14,6 +14,7 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::get('/photos/{photo}/download', 'PhotoController@download');
 
 Route::get('/{any?}',function(){
   return view('index');

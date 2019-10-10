@@ -3,14 +3,22 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Photo extends Model
 {
   /** プライマリキーの型 */
     protected $keyType = 'string';
+    const ID_LENGTH = 12;
+    
+    protected $appends = [
+      'url',
+    ];
+    protected $visible = [
+      'id', 'owner', 'url',
+  ];
 
     /** IDの桁数 */
-    const ID_LENGTH = 12;
 
     public function __construct(array $attributes = [])
     {
@@ -50,4 +58,20 @@ class Photo extends Model
 
         return $id;
     }
-}
+
+    public function getUrlAttribute()
+    {
+      return Storage::cloud()->url($this->attributes['filename']);
+    }
+
+
+
+
+
+
+    public function owner()
+    {
+      return $this->belongsTo('App\User', 'user_id', 'id', 'users');
+    }
+
+  }
