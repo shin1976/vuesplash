@@ -19,8 +19,12 @@ Vue.use(VueRouter)
 // パスとコンポーネントのマッピング
 const routes = [
   {
-    path: '/',
-    component: PhotoList
+      path: '/',
+      component: PhotoList,
+      props: route => {
+      const page = route.query.page
+      return { page: /^[1-9][0-9]*$/.test(page) ? page * 1 : 1 }
+  }
   },
   {
     path: '/photos/:id',
@@ -30,10 +34,10 @@ const routes = [
   {
     path: '/login',
     component: Login,
-    beforeEnter(to,from,next) {
+    beforeEnter (to, from, next) {
       if(store.getters['auth/check']) {
         next('/')
-      }else {
+      } else {
         next()
       }
     }
@@ -48,6 +52,9 @@ const routes = [
 // VueRouterインスタンスを作成する
 const router = new VueRouter({
   mode: 'history',
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  },
   routes
 })
 

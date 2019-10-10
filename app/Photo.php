@@ -10,7 +10,7 @@ class Photo extends Model
   /** プライマリキーの型 */
     protected $keyType = 'string';
     const ID_LENGTH = 12;
-    
+
     protected $appends = [
       'url',
     ];

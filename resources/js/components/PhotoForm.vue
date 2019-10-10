@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import {CREATED, UNPROCESSABLE_ENTITY} from '../util'
+import { CREATED, UNPROCESSABLE_ENTITY } from '../util'
 
   import Loader from './Loader.vue'
   export default {
@@ -35,7 +35,7 @@
         required: true
       }
     },
-    data() {
+    data () {
       return {
         loading: false,
         preview: null,
@@ -71,15 +71,15 @@
 
         this.photo = event.target.files[0]
         },
-        reset() {
+        reset () {
           this.preview = ''
           this.photo = null
           this.$el.querySelector('input[type="file"]').value = null
         },
-        async submit() {
+        async submit () {
           this.loading = true
           const formData = new FormData()
-          formData.append('photo',this.photo)
+          formData.append('photo', this.photo)
           const response = await axios.post('/api/photos', formData)
 
           this.loading = false
@@ -92,7 +92,7 @@
           this.reset()
 
           this.$emit('input', false)
-          if(response.status !== CREATED) {
+          if (response.status !== CREATED) {
           this.$store.commit('error/setCode', response.status)
             return false
           }

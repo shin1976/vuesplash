@@ -69,14 +69,16 @@ class PhotoController extends Controller
 
 
 
-    public function download(Photo $photo) {
+    public function download(Photo $photo)
+    {
+
       if(! Storage::cloud()->exists($photo->filename)) {
         abort(404);
       }
 
       $headers = [
         'Content-Type' => 'application/octet-stream',
-        'Content-Disposition'  => 'attachment; filename="'. $photo->filename . '"',
+        'Content-Disposition' => 'attachment; filename="' . $photo->filename . '"',
       ];
 
       return response(Storage::cloud()->get($photo->filename), 200, $headers);
