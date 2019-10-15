@@ -35,7 +35,7 @@ const routes = [
     path: '/login',
     component: Login,
     beforeEnter (to, from, next) {
-      if(store.getters['auth/check']) {
+      if (store.getters['auth/check']) {
         next('/')
       } else {
         next()
