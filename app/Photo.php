@@ -15,7 +15,7 @@ class Photo extends Model
       'url',
     ];
     protected $visible = [
-      'id', 'owner', 'url',
+      'id', 'owner', 'url', 'comments',
   ];
 
     /** IDの桁数 */
@@ -64,14 +64,21 @@ class Photo extends Model
       return Storage::cloud()->url($this->attributes['filename']);
     }
 
-
-
-
-
-
     public function owner()
     {
       return $this->belongsTo('App\User', 'user_id', 'id', 'users');
     }
+
+    public function comments()
+    {
+      return $this->hasMany('App\Comment')->orderBy('id', 'desc');
+    }
+
+
+
+
+
+
+
 
   }

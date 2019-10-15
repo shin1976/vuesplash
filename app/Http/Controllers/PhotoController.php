@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
+use App\Http\Requests\StoreComment;
+
 use App\Http\Requests\StorePhoto;
 use App\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\Types\Integer;
+
 
 class PhotoController extends Controller
 {
@@ -30,6 +35,13 @@ class PhotoController extends Controller
      * @param StorePhoto $request
      * @return \Illuminate\Http\Response
      */
+     public function show(string $id)
+     {
+       $photo = Photo::where('id', $id)
+       ->with(['owner','comments.author'])->first();
+
+       return $photo ?? abort(404);
+     }
 
 
 
@@ -67,6 +79,18 @@ class PhotoController extends Controller
         return response($photo, 201);
     }
 
+    public function addComment(Photo $photo, StoreComment $request)
+    {
+      $comment = new Comment();
+      $comment->content = $request->get('content');
+      $comment->user_id = Auth::user()->id;
+      $photo->comments()->save($comment);
+
+      $new_comment = Comment::where('id', $comment->id)->with('author')->first();
+
+      return response($new_comment, 201);
+    }
+
 
 
     public function download(Photo $photo)
@@ -85,10 +109,7 @@ class PhotoController extends Controller
 
     }
 
-    public function show(string $id)
-    {
-      $photo = Photo::where('id', $id)->with(['owner'])->first();
 
-      return $photo ?? abort(404);
-    }
+
+
 }
