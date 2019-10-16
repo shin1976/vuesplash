@@ -28,5 +28,6 @@ Route::get('/user', function () {
 Route::post('/photos','PhotoController@create')->name('photo.create');
 Route::get('/photos', 'PhotoController@index')->name('photo.index');
 Route::get('/photos/{id}', 'PhotoController@show')->name('photo.show');
-
+Route::put('/photos/{id}/like', 'PhotoController@like')->name('photo.like');
+Route::delete('/photos/{id}/like','PhotoController@unlike');
 Route::post('/photos/{photo}/comments','PhotoController@addComment')->name('photo.comment');
